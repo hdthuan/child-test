@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+.first-step-container button {
+  width: 40px;
+  height: 40px;
+  margin: 20px;
+}

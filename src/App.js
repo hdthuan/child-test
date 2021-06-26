@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import './App.css';
 
 const MAX_SINGLE = 10
 const MAX_QUESTIONS = 10
-const isSumTest = true;
 
 function randomNumber(max, min = 1) {
   min = Math.ceil(min);
@@ -29,6 +29,14 @@ function generateMultiQuestions(length) {
 }
 
 function App() {
+  const [step, setStep] = useState(0)
+  const [isSumTest, setIsSumTest] = useState(false)
+  if (step === 0) {
+    return <FirstStep choose={(choose) => {
+      setStep(1);
+      setIsSumTest(choose);
+    }} />;
+  }
   const questions = generateMultiQuestions(MAX_QUESTIONS)
   return (
     <div className="App">
@@ -37,32 +45,39 @@ function App() {
   );
 }
 
+function FirstStep({ choose }) {
+  return <div className="first-step-container">
+    <button onClick={() => choose(true)}>+</button>
+    <button onClick={() => choose(false)}>-</button>
+  </div>
+}
+
 function Cell({ value }) {
   if (value === null) {
-    return <input className="hint" />
+    return <input type="number" className="hint" />
   }
   return <div>{value}</div>
 }
 
 function TableSum({ questions }) {
-  const rows = []
-  for (let index = 0; index < questions.length; index++) {
-    const element = questions[index];
-    console.log(rows);
+  // const rows = []
+  // for (let index = 0; index < questions.length; index++) {
+  //   const element = questions[index];
+  //   console.log(rows);
 
-    if (index % 2 === 0) {
-      rows.push([element])
-    } else {
-      rows[rows.length - 1].push(element)
-    }
-  }
+  //   if (index % 2 === 0) {
+  //     rows.push([element])
+  //   } else {
+  //     rows[rows.length - 1].push(element)
+  //   }
+  // }
   return (
     <div className="App">
       <table>
         <tbody>
-          {rows.map((qs, index) => (<tr key={index}>
-            {qs.map((r, ix) => (
-              <td key={ix} >
+          {questions.map((r, index) => (
+            <tr key={index}>
+              <td >
                 <div className="question-container">
                   <Cell value={r[0]} />&nbsp;
                   <div>+</div>&nbsp;
@@ -71,8 +86,8 @@ function TableSum({ questions }) {
                   <Cell value={r[2]} />
                 </div>
               </td>
-            ))}
-          </tr>))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -80,24 +95,24 @@ function TableSum({ questions }) {
 }
 
 function TableSub({ questions }) {
-  const rows = []
-  for (let index = 0; index < questions.length; index++) {
-    const element = questions[index];
-    console.log(rows);
+  // const rows = []
+  // for (let index = 0; index < questions.length; index++) {
+  //   const element = questions[index];
+  //   console.log(rows);
 
-    if (index % 2 === 0) {
-      rows.push([element])
-    } else {
-      rows[rows.length - 1].push(element)
-    }
-  }
+  //   if (index % 2 === 0) {
+  //     rows.push([element])
+  //   } else {
+  //     rows[rows.length - 1].push(element)
+  //   }
+  // }
   return (
     <div className="App">
       <table>
         <tbody>
-          {rows.map((qs, index) => (<tr key={index}>
-            {qs.map((r, ix) => (
-              <td key={ix} >
+          {questions.map((r, index) => (
+            <tr key={index}>
+              <td >
                 <div className="question-container">
                   <Cell value={r[2]} />&nbsp;
                   <div>-</div>&nbsp;
@@ -106,13 +121,12 @@ function TableSub({ questions }) {
                   <Cell value={r[0]} />
                 </div>
               </td>
-            ))}
-          </tr>))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
 }
-
 
 export default App;
