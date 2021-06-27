@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import readingLessions from "./text.json"
+import readingLessions from "./text.js"
 
 const MAX_SINGLE = 10
 const MAX_QUESTIONS = 10

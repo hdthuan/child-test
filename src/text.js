@@ -1,4 +1,4 @@
-[
+const text = [
     [
         "ca",
         "cà",
@@ -258,3 +258,4 @@
         "khư"
     ]
 ]
+export default text;
