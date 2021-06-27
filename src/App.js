@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import readingLessions from "./text.json"
 
 const MAX_SINGLE = 10
 const MAX_QUESTIONS = 10
@@ -30,25 +31,65 @@ function generateMultiQuestions(length) {
 
 function App() {
   const [step, setStep] = useState(0)
-  const [isSumTest, setIsSumTest] = useState(false)
+  const [testingType, setTestingType] = useState(0)
   if (step === 0) {
     return <FirstStep choose={(choose) => {
       setStep(1);
-      setIsSumTest(choose);
+      setTestingType(choose);
     }} />;
   }
   const questions = generateMultiQuestions(MAX_QUESTIONS)
+  let testingBody = null;
+  switch (testingType) {
+    case 0:
+      testingBody = <TableSum questions={questions} />;
+      break;
+    case 1:
+      testingBody = <TableSub questions={questions} />;
+      break;
+    case 2:
+      testingBody = <ReadingLessions />;
+      break;
+    default:
+      testingBody = <TableSum questions={questions} />;
+      break;
+  }
   return (
     <div className="App">
-      {isSumTest ? <TableSum questions={questions} /> : <TableSub questions={questions} />}
+      {testingBody}
     </div>
   );
 }
 
+function ReadingLessions() {
+  const [readingLessionIndex, setReadingLessionIndex] = useState(null)
+  const [randomSeed, setRandomSeed] = useState(0)
+  const lessionContent = readingLessions[readingLessionIndex]
+  return (
+    <div>
+      <div className="reading-lessions-selector">
+        {readingLessions.map((_, index) => (<button key={index} onClick={() => {
+          setRandomSeed(Math.random())
+          setReadingLessionIndex(index);
+        }
+        }>{index + 1}</button>))}
+      </div>
+      <div className="hidden">
+        {randomSeed}
+      </div>
+      {lessionContent && <div className="reading-lession-content">
+        {lessionContent.sort(() => Math.random() - 0.5).slice(0, 5).map(r => (<div key={r}>{r}</div>))}
+      </div>
+      }
+    </div>
+  )
+}
+
 function FirstStep({ choose }) {
   return <div className="first-step-container">
-    <button onClick={() => choose(true)}>+</button>
-    <button onClick={() => choose(false)}>-</button>
+    <button onClick={() => choose(0)}>+</button>
+    <button onClick={() => choose(1)}>-</button>
+    <button onClick={() => choose(2)}>Aa</button>
   </div>
 }
 

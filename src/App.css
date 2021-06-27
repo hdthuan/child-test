@@ -20,7 +20,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -40,4 +39,16 @@
   width: 40px;
   height: 40px;
   margin: 20px;
+}
+.reading-lessions-selector button {
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+}
+.reading-lession-content {
+  font-size: 60px;
+}
+
+.hidden{
+  display: none !important;
 }
